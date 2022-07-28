@@ -65,14 +65,3 @@ document.addEventListener('click', (e) => {
 
 
 
-/*const cpf = new ValidaCPF(inserirCPF);
-    if (cpf.valida()){
-        console.log(`CPF ${inserirCPF} é valido`);
-    } else {
-        console.log(`CPF ${inserirCPF} é INVALIDO`);
-    
-  }*/
-
-
-
-
