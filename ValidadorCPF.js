@@ -1,6 +1,8 @@
 function ValidaCPF (cpfEnviado){
     Object.defineProperty(this, 'cpfLimpo',{
         enumerable: true,
+        //essa metodo é apenas para garantir que vai ser lido somente numeros (abaixo tem o metodo ValidaCPF.prototype.mascara(cpf)
+        //que NAO permite entrar com caracteres diferentes de numeros)
         get: function(){
             return cpfEnviado.replace(/\D+/g, '');
         }
@@ -40,28 +42,40 @@ ValidaCPF.prototype.eUmaSequencia = function() {
     return sequencia === this.cpfLimpo;
 }
 
+//metodo de fazer a mascara
+ValidaCPF.prototype.mascara = function(cpf){
+   
+    var valor = cpf.value;
+   
+   if(isNaN(valor[valor.length-1])){ // impede entrar outro caractere que não seja número
+      cpf.value = valor.substring(0, valor.length-1);
+      return;
+   }
+   
+   cpf.setAttribute("maxlength", "14");
+   if (valor.length == 3 || valor.length == 7) cpf.value += ".";
+   if (valor.length == 11) cpf.value += "-";
+}
 
 
 //LEMBRAR QUE PARA PEGAR O VALOR DE UM INPUT DEVE-SE ESCREVER COMO O EXEMPLO => variavel.value
 document.addEventListener('click', (e) => {
     const elemento = e.target;
     const inserirCPF = document.querySelector('.cpf');
-    console.log(elemento);
 
     //instanciando variavel cpf
     const cpf = new ValidaCPF(inserirCPF.value);
     //inserirCPF.value pega o valor digitado no input text com a class="cpf"
-    
     if (elemento.classList.contains('btnValidar')){
-        
         if (cpf.valida()){
-            alert(`CPF ${inserirCPF.value} é valido`);
+            alert(`CPF ${cpf.cpfLimpo} é valido`);
         } else {
-            alert(`CPF ${inserirCPF.value} é INVALIDO`);
+            alert(`CPF ${cpf.cpfLimpo} é INVALIDO`);
     
         }
     }
 });
+
 
 
 
